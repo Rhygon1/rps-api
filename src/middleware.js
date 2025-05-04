@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server'
+import { NextResponse } from 'next/server'
 import { rateLimit } from '@daveyplate/next-rate-limit'
 
 export async function middleware(request) {

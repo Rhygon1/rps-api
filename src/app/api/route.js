@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connectDB from '../../lib/connectDB';
 import Game from "@/models/game";
 
-export async function GET(req, res){
+export async function GET(req){
     await connectDB();
     let searchParams = req.nextUrl.searchParams
 

@@ -1,8 +1,19 @@
 import { NextResponse } from "next/server";
 import connectDB from '../../lib/connectDB';
 import Game from "@/models/game";
+import { Ratelimit } from '@upstash/ratelimit';
+import { kv } from '@vercel/kv';
+
+const rateLimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.slidingWindow(1, '10 s'), // 5 requests in 10 seconds
+});
 
 export async function GET(req){
+    const { success } = await rateLimit.limit(req.ip);
+    if (!success) {
+        return res.status(429).json('Too many requests');
+    }
     await connectDB();
     let searchParams = req.nextUrl.searchParams
 

@@ -10,15 +10,15 @@ function mod(n: number, m: number) {
 }
 
 export default function Home() {
-  let [AIPick, SetAIPick] = useState("N")
-  let [Decided, SetDecided] = useState("N")
-  let [Scores, SetScores] = useState([0, 0])
-  let [ShowOptions, SetShowOptions] = useState(["rock", "paper", "scissors"])
-  let [uid, setUid] = useState(typeof window !== "undefined" ? localStorage.getItem("uid") || "" : "")
+  const [AIPick, SetAIPick] = useState("N")
+  const [Decided, SetDecided] = useState("N")
+  const [Scores, SetScores] = useState([0, 0])
+  const [ShowOptions, SetShowOptions] = useState(["rock", "paper", "scissors"])
+  const [uid, setUid] = useState(typeof window !== "undefined" ? localStorage.getItem("uid") || "" : "")
 
   useEffect(() => {
     if(!uid){
-      let uuid = uuidv4()
+      const uuid = uuidv4()
       setUid(uuid)
       localStorage.setItem('uid', uuid)
     }
@@ -36,7 +36,7 @@ export default function Home() {
 
   useEffect(() => {
     if(AIPick != "N" && ShowOptions.length == 1){
-      let diff = mod(("rps".indexOf(ShowOptions[0][0]) - "rps".indexOf(AIPick)), 3)
+      const diff = mod(("rps".indexOf(ShowOptions[0][0]) - "rps".indexOf(AIPick)), 3)
       if(diff == 1){
         SetDecided("You Won!")
         SetScores(a => [a[0] + 1, a[1]])
@@ -63,7 +63,7 @@ export default function Home() {
     SetShowOptions(["rock", "paper", "scissors"])
   }
 
-  let mapping = {
+  const mapping = {
     "r": "rock",
     "p": "paper", 
     "s": "scissors"

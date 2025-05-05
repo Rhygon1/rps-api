@@ -10,7 +10,7 @@ export async function GET(req){
     let game = searchParams.get('game')
     console.log(user, game)
 
-    if(user && game && game.length == 2 && game.replace("r", "").replace("s", "").replace("p", "") == ""){
+    if(user && game && game.length == 2 && game.replaceAll("r", "").replaceAll("s", "").replaceAll("p", "") == ""){
         console.log(user, game)
         let oldUser = await Game.find({user: user})
         oldUser = Array.from(oldUser)

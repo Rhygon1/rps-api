@@ -15,6 +15,7 @@ export default function Home() {
   const [Scores, SetScores] = useState([0, 0])
   const [ShowOptions, SetShowOptions] = useState(["rock", "paper", "scissors"])
   const [uid, setUid] = useState(typeof window !== "undefined" ? localStorage.getItem("uid") || "" : "")
+  const [highScore, setHighScore] = useState(0);
 
   useEffect(() => {
     if(!uid){
@@ -40,10 +41,12 @@ export default function Home() {
       if(diff == 1){
         SetDecided("You Won!")
         SetScores(a => [a[0] + 1, a[1]])
+        setHighScore(a => a + 1)
       }
       if(diff == 2){
         SetDecided("You Lost :(")
         SetScores(a => [a[0], a[1] + 1])
+        setHighScore(0)
       }
       if(diff == 0){
         SetDecided("Draw")
@@ -69,7 +72,8 @@ export default function Home() {
     "s": "scissors"
   }
   return (
-    <div className="flex justify-center h-screen">
+    <div className="flex relative justify-center h-screen">
+      <p className="absolute top-2 right-5 white">{`High score: ${highScore}`}</p>
       <main className="flex flex-col justify-around container max-w-xl">
         <div className="flex flex-col justify-around">
           <p className="text-center">Your pick</p>

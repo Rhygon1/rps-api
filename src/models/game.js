@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 
 const GameSchema = new mongoose.Schema({
   user: String,
-  games: String
+  games: String,
+  lastPlayed: Date
 });
 
 const Game = mongoose.models.Game ||  mongoose.model('Game', GameSchema);

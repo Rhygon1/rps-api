@@ -13,7 +13,7 @@ function setCookie(name: string,value: string,seconds:number) {
     let expires = "";
     if (seconds) {
         const date = new Date();
-        date.setTime(date.getTime() + (seconds*24*60*60*1000));
+        date.setTime(date.getTime() + (seconds*1000));
         expires = "; expires=" + date.toUTCString();
     }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";

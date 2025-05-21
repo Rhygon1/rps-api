@@ -24,7 +24,7 @@ export async function GET(req){
         n = new Game(n)
         r = await n.save()
     }
-    console.log(r)
+    console.log(auth)
     cookieStore.set('auth', auth, { secure: true, maxAge: 5 })
     return NextResponse.json({Meh: "meh"})
 }

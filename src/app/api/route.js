@@ -19,7 +19,7 @@ export async function GET(req) {
         console.log(oldUser)
         let r;
         if (oldUser[0]) {
-            if (oldUser[0].auth == auth || game == oldUser[0].games.splice(-2)) {
+            if (oldUser[0].auth == auth || game != oldUser[0].games.splice(-2)) {
                 r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game, lastPlayed: Date.now(), auth: uuidv4() })
             } else {
                 return NextResponse.json({ message: 'Why :(' }, { status: 400 });

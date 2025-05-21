@@ -1,7 +1,6 @@
 "use client"
 
 import Image from "next/image";
-import { Loader, Check } from 'lucide-react';
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -48,9 +47,9 @@ export default function Home() {
   useEffect(() => {
     if(ShowOptions.length == 1){
       async function f(){
-        let resAipick = await fetch(`/api/AI?name=${uid}`)
-        let b = await resAipick.json()
-        let c = b.pick
+        const resAipick = await fetch(`/api/AI?name=${uid}`)
+        const b = await resAipick.json()
+        const c = b.pick
         SetAIPick(c);
         const diff = mod(("rps".indexOf(ShowOptions[0][0]) - "rps".indexOf(c)), 3)
         if(diff == 1){

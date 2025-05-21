@@ -13,7 +13,7 @@ export async function GET(req) {
     let auth = uuidv4()
     let oldUser = await Game.find({ user: user })
     if (!user){
-        NextResponse.json({Message: "nuh uh"}, {status: 400})
+        return NextResponse.json({Message: "nuh uh"}, {status: 400})
     }
     oldUser = Array.from(oldUser);
     let r;

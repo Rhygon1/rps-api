@@ -11,7 +11,7 @@ export async function GET(req){
     let oldUser = await Game.find({ user: user })
     oldUser = Array.from(oldUser);
     if (!user){
-        NextResponse.json({Message: "nuh uh"}, {status: 400})
+        return NextResponse.json({Message: "nuh uh"}, {status: 400})
     }
     let r;
     if (oldUser[0]) {

@@ -19,7 +19,7 @@ export async function GET(req) {
     }
     console.log(user, game)
 
-    if (user && auth && game && game.length == 2 && game.replaceAll("r", "").replaceAll("s", "").replaceAll("p", "") == "") {
+    if (user && auth && game && game.length == 1 && game.replaceAll("r", "").replaceAll("s", "").replaceAll("p", "") == "") {
         console.log(user, game, auth)
         let oldUser = await Game.find({ user: user })
         oldUser = Array.from(oldUser)
@@ -27,7 +27,7 @@ export async function GET(req) {
         let r;
         if (oldUser[0]) {
             if (oldUser[0].auth == auth) {
-                r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game, lastPlayed: Date.now(), auth: uuidv4() })
+                r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game + oldUser[0].aipick, lastPlayed: Date.now(), auth: uuidv4() })
             } else {
                 return NextResponse.json({ message: 'Why :(' }, { status: 400 });
             }

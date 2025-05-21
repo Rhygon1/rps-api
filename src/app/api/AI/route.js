@@ -1,5 +1,26 @@
 import { NextResponse } from "next/server";
+import connectDB from '../../../lib/connectDB';
+import Game from "@/models/game";
 
-export async function GET(){
-    return NextResponse.json({pick: "rps"[Math.floor(Math.random() * 3)]})
+export async function GET(req){
+    await connectDB();
+
+    let searchParams = req.nextUrl.searchParams
+    let rand = "rps"[Math.floor(Math.random() * 3)]
+    let user = searchParams.get('name')
+    let oldUser = await Game.find({ user: user })
+    oldUser = Array.from(oldUser);
+    if (!user){
+        NextResponse.json({Message: "nuh uh"}, {status: 400})
+    }
+    let r;
+    if (oldUser[0]) {
+        r = await Game.updateOne({ user: user }, { aipick: rand })
+    } else {
+        let n = { user: user, games: "", lastPlayed: Date.now(), auth: "", aipick: rand }
+        n = new Game(n)
+        r = await n.save()
+    }
+    console.log(r)
+    return NextResponse.json({pick: rand})
 }

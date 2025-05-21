@@ -12,6 +12,9 @@ export async function GET(req) {
     let user = searchParams.get('name')
     let auth = uuidv4()
     let oldUser = await Game.find({ user: user })
+    if (!user){
+        NextResponse.json({Message: "nuh uh"}, {status: 400})
+    }
     oldUser = Array.from(oldUser);
     let r;
     if (oldUser[0]) {

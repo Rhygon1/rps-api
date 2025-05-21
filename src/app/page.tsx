@@ -47,7 +47,7 @@ export default function Home() {
 
   useEffect(() => {
     if(AIPick != "N") {return}
-    fetch("/api/AI")
+    fetch(`/api/AI?name=${uid}`)
       .then(res => res.json())
       .then(d => {
         d = d.pick
@@ -78,7 +78,7 @@ export default function Home() {
         const js = await authi.json()
         const a = js.auth
         setCookie("auth", getCookie("auth")+"1", 2)
-        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}${AIPick}&auth=${a}`)
+        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}&auth=${a}`)
       }
       f()
     }

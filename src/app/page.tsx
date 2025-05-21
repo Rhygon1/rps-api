@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image";
+import { Loader } from "lucide-react";
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -47,7 +48,9 @@ export default function Home() {
   useEffect(() => {
     if(ShowOptions.length == 1){
       async function f(){
-        const resAipick = await fetch(`/api/AI?name=${uid}`)
+        let resAipick = await fetch(`/api/auth?name=${uid}`)
+        setCookie("auth", getCookie("auth")+"1", 2)
+        resAipick = await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}`)
         const b = await resAipick.json()
         const c = b.pick
         SetAIPick(c);
@@ -66,8 +69,6 @@ export default function Home() {
           SetDecided("Draw")
           setHighScore(0)
         }
-        setCookie("auth", getCookie("auth")+"1", 2)
-        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}`)
       }
       f()
     }
@@ -116,9 +117,9 @@ export default function Home() {
           }
         </div>
         
-        {!AIPick ? <div className="flex flex-col justify-around items-center">
-          {/* <Loader className="h-full w-fit animate-spin m-3" /> */}
-          <p className="text-center">AI Picking</p>
+        {AIPick == "N" ? <div className="flex flex-col justify-around items-center">
+          <Loader className="h-full w-fit animate-spin m-3" />
+          <p className="text-center">AI Pick</p>
         </div> : 
         <div className="flex flex-col justify-around items-center">
             {Decided != "N" ? 

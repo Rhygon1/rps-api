@@ -18,6 +18,7 @@ export async function GET(req) {
         return NextResponse.json({ message: 'Why :(' }, { status: 400 });
     }
     console.log(user, game)
+    let rand = "rps"[Math.floor(Math.random() * 3)]
 
     if (user && auth && game && game.length == 1 && game.replaceAll("r", "").replaceAll("s", "").replaceAll("p", "") == "") {
         console.log(user, game, auth)
@@ -27,13 +28,13 @@ export async function GET(req) {
         let r;
         if (oldUser[0]) {
             if (oldUser[0].auth == auth) {
-                r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game + oldUser[0].aipick, lastPlayed: Date.now(), auth: uuidv4() })
+                r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game + rand, lastPlayed: Date.now(), auth: uuidv4() })
             } else {
                 return NextResponse.json({ message: 'Why :(' }, { status: 400 });
             }
         }
         console.log(r)
-        return NextResponse.json(r)
+        return NextResponse.json({pick: rand})
     } else {
         let list = await Game.find({})
         return NextResponse.json(list)

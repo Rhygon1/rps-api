@@ -46,43 +46,33 @@ export default function Home() {
   }, [])
 
   useEffect(() => {
-    if(AIPick != "N") {return}
-    fetch(`/api/AI?name=${uid}`)
-      .then(res => res.json())
-      .then(d => {
-        d = d.pick
-        SetAIPick(d)
-      })
-  }, [AIPick])
-
-  useEffect(() => {
-    if(AIPick != "N" && ShowOptions.length == 1){
-      const diff = mod(("rps".indexOf(ShowOptions[0][0]) - "rps".indexOf(AIPick)), 3)
-      if(diff == 1){
-        SetDecided("You Won!")
-        SetScores(a => [a[0] + 1, a[1]])
-        setHighScore(a => a + 1)
-      }
-      if(diff == 2){
-        SetDecided("You Lost :(")
-        SetScores(a => [a[0], a[1] + 1])
-        setHighScore(0)
-      }
-      if(diff == 0){
-        SetDecided("Draw")
-        setHighScore(0)
-      }
-
+    if(ShowOptions.length == 1){
       async function f(){
-        const authi = await fetch(`/api/auth?name=${uid}`)
-        const js = await authi.json()
-        const a = js.auth
+        let resAipick = await fetch(`/api/AI?name=${uid}`)
+        let b = await resAipick.json()
+        let c = b.pick
+        SetAIPick(c);
+        const diff = mod(("rps".indexOf(ShowOptions[0][0]) - "rps".indexOf(c)), 3)
+        if(diff == 1){
+          SetDecided("You Won!")
+          SetScores(a => [a[0] + 1, a[1]])
+          setHighScore(a => a + 1)
+        }
+        if(diff == 2){
+          SetDecided("You Lost :(")
+          SetScores(a => [a[0], a[1] + 1])
+          setHighScore(0)
+        }
+        if(diff == 0){
+          SetDecided("Draw")
+          setHighScore(0)
+        }
         setCookie("auth", getCookie("auth")+"1", 2)
-        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}&auth=${a}`)
+        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}`)
       }
       f()
     }
-  }, [AIPick, ShowOptions])
+  }, [ShowOptions])
 
   function choose(a: string){
     if(ShowOptions.length == 1) {return}
@@ -128,15 +118,15 @@ export default function Home() {
         </div>
         
         {!AIPick ? <div className="flex flex-col justify-around items-center">
-          <Loader className="h-full w-fit animate-spin m-3" />
+          {/* <Loader className="h-full w-fit animate-spin m-3" /> */}
           <p className="text-center">AI Picking</p>
         </div> : 
         <div className="flex flex-col justify-around items-center">
             {Decided != "N" ? 
             <Image src={`/${mapping[AIPick as keyof typeof mapping]}.png`} width={200} height={100} className="w-1/4 h-fit m-5" alt={`${mapping[AIPick as keyof typeof mapping]}`} key={`${mapping[AIPick as keyof typeof mapping]}`} />
            : <div></div>}
-            <Check className="h-full w-fit" />
-            <p className="text-center">AI Picked</p>
+            {/* <Check className="h-full w-fit" /> */}
+            <p className="text-center">AI Pick</p>
         </div>}
       </main>
     </div>

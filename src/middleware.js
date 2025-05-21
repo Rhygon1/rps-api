@@ -4,7 +4,7 @@ import { rateLimit } from '@daveyplate/next-rate-limit'
 export async function middleware(request) {
     const response = NextResponse.next()
 
-    return await rateLimit({ request, response, ipLimit: 10 })
+    return await rateLimit({ request, response, ipLimit: 20 })
 }
 
 // Apply middleware to all API routes

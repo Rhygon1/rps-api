@@ -54,9 +54,9 @@ export default function Home() {
       }
 
       async function f(){
-        let authi = await fetch(`/api/auth?name=${uid}`)
-        let js = await authi.json()
-        let a = js.auth
+        const authi = await fetch(`/api/auth?name=${uid}`)
+        const js = await authi.json()
+        const a = js.auth
         await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}${AIPick}&auth=${a}`)
       }
       f()

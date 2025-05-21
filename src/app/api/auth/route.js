@@ -11,12 +11,13 @@ export async function GET(req) {
     let auth = uuidv4()
     let oldUser = await Game.find({ user: user })
     oldUser = Array.from(oldUser);
+    let r;
     if (oldUser[0]) {
-        let _ = await Game.updateOne({ user: user }, { auth: auth })
+        r = await Game.updateOne({ user: user }, { auth: auth })
     } else {
         let n = { user: user, games: "", lastPlayed: Date.now() }
         n = new Game(n)
-        let _ = await n.save()
+        r = await n.save()
     }
-    return NextResponse.json({ auth: auth })
+    return NextResponse.json(r)
 }

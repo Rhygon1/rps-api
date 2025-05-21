@@ -17,7 +17,7 @@ export async function GET(req){
         console.log(oldUser)
         let r;
         if(oldUser[0]){
-            r = await Game.updateOne({user: user}, {games: oldUser[0].games + game})
+            r = await Game.updateOne({user: user}, {games: oldUser[0].games + game, lastPlayed: Date.now()})
         } else{
             let n = {user: user, games: game, lastPlayed: Date.now()}
             n = new Game(n)

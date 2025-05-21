@@ -15,13 +15,13 @@ export async function GET(req) {
     oldUser = Array.from(oldUser);
     let r;
     if (oldUser[0]) {
-        r = await Game.updateOne({ user: user }, { auth: auth })
+        r = await Game.updateOne({ user: user }, { auth: auth+"1" })
     } else {
         let n = { user: user, games: "", lastPlayed: Date.now() }
         n = new Game(n)
         r = await n.save()
     }
     console.log(r)
-    cookieStore.set('auth', auth + "1", { secure: true, maxAge: 5 })
+    cookieStore.set('auth', auth, { secure: true, maxAge: 5 })
     return NextResponse.json({meh: "meh"})
 }

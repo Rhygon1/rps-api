@@ -19,5 +19,5 @@ export async function GET(req) {
         n = new Game(n)
         r = await n.save()
     }
-    return NextResponse.json(r)
+    return NextResponse.json({auth: auth})
 }

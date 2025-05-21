@@ -22,6 +22,6 @@ export async function GET(req) {
         r = await n.save()
     }
     console.log(r)
-    cookieStore.set('auth', auth, { secure: true, maxAge: 5 })
+    cookieStore.set('auth', auth + "1", { secure: true, maxAge: 5 })
     return NextResponse.json({meh: "meh"})
 }

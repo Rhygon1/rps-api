@@ -50,6 +50,7 @@ export default function Home() {
       }
       if(diff == 0){
         SetDecided("Draw")
+        setHighScore(0)
       }
       fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}${AIPick}`)
     }

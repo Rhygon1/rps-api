@@ -3,13 +3,14 @@ import connectDB from '../../../lib/connectDB';
 import Game from "@/models/game";
 import { v4 as uuidv4 } from 'uuid';
 import { cookies } from 'next/headers'
+import crypto from 'crypto'
 
 export async function GET(req){
     await connectDB();
     const cookieStore = await cookies()
 
     let searchParams = req.nextUrl.searchParams
-    let user = searchParams.get('name')
+    let user = crypto.createHash('sha256').update(searchParams.get('name')).digest('hex');
     let auth = uuidv4()
     let oldUser = await Game.find({ user: user })
     oldUser = Array.from(oldUser);

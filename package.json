@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@daveyplate/next-rate-limit": "^2.0.1",
+    "ethers": "^6.14.1",
+    "js-sha256": "^0.11.0",
     "lucide-react": "^0.507.0",
     "mongoose": "^8.14.1",
     "next": "15.3.1",
+    "next-auth": "^4.24.11",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "uuid": "^11.1.0"

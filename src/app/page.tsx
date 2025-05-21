@@ -52,7 +52,14 @@ export default function Home() {
         SetDecided("Draw")
         setHighScore(0)
       }
-      fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}${AIPick}`)
+
+      async function f(){
+        let authi = await fetch(`/api/auth?name=${uid}`)
+        let js = await authi.json()
+        let a = js.auth
+        await fetch(`/api?name=${uid}&game=${ShowOptions[0][0]}${AIPick}&auth=${a}`)
+      }
+      f()
     }
   }, [AIPick, ShowOptions])
 

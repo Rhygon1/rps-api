@@ -2,9 +2,11 @@ import { NextResponse } from "next/server";
 import connectDB from '../../../lib/connectDB';
 import Game from "@/models/game";
 import { v4 as uuidv4 } from 'uuid';
+import { cookies } from 'next/headers'
 
 export async function GET(req) {
     await connectDB();
+    const cookieStore = await cookies()
 
     let searchParams = req.nextUrl.searchParams
     let user = searchParams.get('name')
@@ -20,5 +22,6 @@ export async function GET(req) {
         r = await n.save()
     }
     console.log(r)
-    return NextResponse.json({auth: auth})
+    cookieStore.set('auth', auth, { secure: true, maxAge: 5 })
+    return NextResponse.json({meh: "meh"})
 }

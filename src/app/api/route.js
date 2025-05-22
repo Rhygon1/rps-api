@@ -77,7 +77,7 @@ export async function GET(req) {
         console.log(oldUser)
         let r;
         if (oldUser[0]) {
-            if (oldUser[0].auth == auth) {
+            if (oldUser[0].auth == auth && oldUser[0].totalUnder5 < 10) {
                 let games = oldUser[0].games
                 if (games.length > 18 && highScore(games.slice(-18)) > 7) {
                     rand = winMapping[game]

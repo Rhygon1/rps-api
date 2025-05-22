@@ -19,9 +19,15 @@ export async function GET(req){
     }
     let r;
     if (oldUser[0]) {
-        r = await Game.updateOne({ user: user }, { auth: auth+"1" })
+        let under5 = oldUser[0].totalUnder5
+        if(Date.now() - new Date(oldUser[0].lastPlayed).getTime() < 2000){
+            under5 += 1
+        } else {
+            under5 = 0
+        }
+        r = await Game.updateOne({ user: user }, { auth: auth+"1", totalUnder5: under5 })
     } else {
-        let n = { user: user, games: "", lastPlayed: Date.now(), auth: auth+"1"}
+        let n = { user: user, games: "", lastPlayed: Date.now(), auth: auth+"1", totalUnder5: 0, Banned: false}
         n = new Game(n)
         r = await n.save()
     }

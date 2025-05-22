@@ -30,6 +30,17 @@ export async function GET(req) {
 
     }
 
+    const winMapping = {
+        "r": "p",
+        "p": "s",
+        "s": "r"
+    }
+    const loseMapping = {
+        "r": "s",
+        "p": "r",
+        "s": "p"
+    }
+
 
     await connectDB();
     const cookieStore = await cookies()
@@ -49,6 +60,15 @@ export async function GET(req) {
     }
     console.log(user, game)
     let rand = "rps"[Math.floor(Math.random() * 3)]
+    if(Math.random() > 0.25){
+        if(Math.random() > 0.5){
+            rand = winMapping[game]
+        } else {
+            rand = game
+        }
+    } else {
+        rand = loseMapping[game]
+    }
 
     if (user && auth && game && game.length == 1 && game.replaceAll("r", "").replaceAll("s", "").replaceAll("p", "") == "") {
         console.log(user, game, auth)
@@ -59,10 +79,8 @@ export async function GET(req) {
         if (oldUser[0]) {
             if (oldUser[0].auth == auth) {
                 let games = oldUser[0].games
-                if (games.length > 18 && highScore(games.slice(-18)) > 8) {
-                    if (game == 'r') rand = 'p'
-                    if (game == 'p') rand = 's'
-                    if (game == 's') rand = 'r'
+                if (games.length > 18 && highScore(games.slice(-18)) > 7) {
+                    rand = winMapping[game]
                 }
 
                 r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game + rand, lastPlayed: Date.now(), auth: uuidv4() })

@@ -8,7 +8,7 @@ import crypto from 'crypto'
 export async function GET(req){
     await connectDB();
     const cookieStore = await cookies()
-
+    const ip = (req.headers.get('x-forwarded-for') ?? '127.0.0.1').split(',')[0]
     let searchParams = req.nextUrl.searchParams
     let user = crypto.createHash('sha256').update(searchParams.get('name')).digest('hex');
     let auth = uuidv4()
@@ -25,7 +25,7 @@ export async function GET(req){
         n = new Game(n)
         r = await n.save()
     }
-    console.log(auth, r)
+    console.log(auth, ip, r)
     cookieStore.set('auth', auth, { secure: true, maxAge: 5 })
     return NextResponse.json({Meh: "meh"})
 }

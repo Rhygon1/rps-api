@@ -91,7 +91,6 @@ export async function GET(req) {
         console.log(r)
         return NextResponse.json({ pick: rand })
     } else {
-        let list = await Game.find({})
-        return NextResponse.json(list)
+        return NextResponse.json({ message: 'Why :(' }, { status: 400 });
     }
 }

@@ -20,7 +20,7 @@ export async function GET(req){
     let r;
     if (oldUser[0]) {
         let under5 = oldUser[0].totalUnder5
-        if(Date.now() - new Date(oldUser[0].lastPlayed).getTime() < 2000){
+        if(Date.now() - new Date(oldUser[0].lastPlayed).getTime() < 1000){
             under5 += 1
         } else {
             under5 = 0

@@ -67,7 +67,6 @@ export default function Home() {
         }
         if(diff == 0){
           SetDecided("Draw")
-          setHighScore(0)
         }
       }
       f()

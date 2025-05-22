@@ -6,14 +6,43 @@ import { cookies } from 'next/headers'
 import crypto from 'crypto'
 
 export async function GET(req) {
+    function highScore(seq) {
+        let score = 0
+        let bestScore = 0
+
+        function mod(n, m) {
+            return ((n % m) + m) % m;
+        }
+
+        for (let i = 0; i < seq.length; i += 2) {
+            const diff = mod(("rps".indexOf(seq[i]) - "rps".indexOf(seq[i + 1])), 3)
+            if (diff == 1) {
+                score++
+            } else if (diff == 2) {
+                score = 0
+            }
+            if (score > bestScore) {
+                bestScore = score
+            }
+        }
+
+        return bestScore
+
+    }
+
+
     await connectDB();
     const cookieStore = await cookies()
     let searchParams = req.nextUrl.searchParams
 
-    let user = crypto.createHash('sha256').update(searchParams.get('name')).digest('hex');
+    let user = searchParams.get('name')
+    if (!user) {
+        return NextResponse.json({ message: 'Why :(' }, { status: 400 });
+    }
+    user = crypto.createHash('sha256').update(user).digest('hex');
     let game = searchParams.get('game')
     let auth;
-    try{
+    try {
         auth = cookieStore.get('auth').value
     } catch {
         return NextResponse.json({ message: 'Why :(' }, { status: 400 });
@@ -29,13 +58,20 @@ export async function GET(req) {
         let r;
         if (oldUser[0]) {
             if (oldUser[0].auth == auth) {
+                let games = oldUser[0].games
+                if (games.length > 18 && highScore(games.slice(-18)) > 8) {
+                    if (game == 'r') rand = 'p'
+                    if (game == 'p') rand = 's'
+                    if (game == 's') rand = 'r'
+                }
+
                 r = await Game.updateOne({ user: user }, { games: oldUser[0].games + game + rand, lastPlayed: Date.now(), auth: uuidv4() })
             } else {
                 return NextResponse.json({ message: 'Why :(' }, { status: 400 });
             }
         }
         console.log(r)
-        return NextResponse.json({pick: rand})
+        return NextResponse.json({ pick: rand })
     } else {
         let list = await Game.find({})
         return NextResponse.json(list)
